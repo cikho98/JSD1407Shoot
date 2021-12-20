@@ -31,4 +31,7 @@ public class Bee extends FlyingObject implements Award{
     public int getType(){
         return awardType;
     }
+    public boolean outofBounds(){
+        return y>ShootGame.HEIGHT;
+    }
 }

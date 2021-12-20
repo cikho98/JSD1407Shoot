@@ -16,4 +16,6 @@ public abstract class FlyingObject {
         int y=b.y;
         return  x>this.x && x<this.x+width && y>this.y && y<this.y+height;
     }
+
+    public abstract boolean outofBounds();
 }

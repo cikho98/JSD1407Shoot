@@ -15,4 +15,8 @@ public class Bullet extends FlyingObject{
     public void step(){
         y-=speed;
     }
+
+    public boolean outofBounds(){
+        return y<-height;
+    }
 }

@@ -22,4 +22,8 @@ public class Airplane extends FlyingObject implements Enemy{
     public int getScore(){
         return 5;
     }
+
+    public boolean outofBounds(){
+        return y>ShootGame.HEIGHT;
+    }
 }

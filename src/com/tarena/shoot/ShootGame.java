@@ -1,5 +1,6 @@
 package com.tarena.shoot;
 
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
@@ -7,7 +8,6 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import java.awt.Graphics;
 import java.util.Timer;
 import java.util.TimerTask;
 import java.util.Random;
@@ -64,6 +64,7 @@ public class ShootGame extends JPanel {
         paintHero(g);
         paintBullet(g);
         paintFlyingObjects(g);
+        paintScore(g);
     }
 
     public void paintHero(Graphics g) {
@@ -76,6 +77,17 @@ public class ShootGame extends JPanel {
             g.drawImage(b.image, b.x, b.y, null);
         }
     }
+
+    public void paintScore(Graphics g){
+        int x=10;
+        int y=25;
+        g.setColor(new Color(0xC01900FF, true));
+        g.setFont(new Font(Font.SANS_SERIF,Font.BOLD,25));
+        g.drawString("SCORE:"+score,x,y);
+        int life=hero.getLife();
+        g.drawString("LIFE :"+life,x,y+20);
+    }
+
 
     private Timer timer;
     private int interval = 10;
@@ -99,6 +111,7 @@ public class ShootGame extends JPanel {
                 stepAction();
                 shootAction();
                 bangAction();
+                outofBoundsAction();
                 repaint();
             }
         }, interval, interval);
@@ -116,6 +129,7 @@ public class ShootGame extends JPanel {
 
     }
 
+//    生成小飞机或者小蜜蜂
     public static FlyingObject nextOne() {
         Random rand = new Random();
         int type = rand.nextInt(20);
@@ -155,6 +169,30 @@ public class ShootGame extends JPanel {
         }
     }
 
+    public void outofBoundsAction(){
+        int index=0;
+        FlyingObject[] flyingLives=new FlyingObject[flyings.length];
+        for (int i = 0; i < flyings.length; i++) {
+            FlyingObject f =flyings[i];
+            if (!f.outofBounds()){
+                flyingLives[index++]=f;
+            }
+        }
+        flyings=Arrays.copyOf(flyingLives,index);
+
+        index=0;
+        Bullet[] bulleLives=new Bullet[bullets.length];
+        for (int i = 0; i < bullets.length; i++) {
+            Bullet b=bullets[i];
+            if (!b.outofBounds()){
+                bulleLives[index++]=b;
+            }
+        }
+        bullets=Arrays.copyOf(bulleLives,index);
+
+
+    }
+
     public void bang(Bullet b) {
         int index = -1;
         for (int i = 0; i < flyings.length; i++) {
@@ -181,6 +219,11 @@ public class ShootGame extends JPanel {
                         break;
                 }
             }
+            FlyingObject t =flyings[index];
+            flyings[index]=flyings[flyings.length-1];
+            flyings[flyings.length-1]=t;
+            flyings=Arrays.copyOf(flyings,flyings.length-1);
+
         }
     }
 

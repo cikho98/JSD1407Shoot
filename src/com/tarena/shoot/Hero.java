@@ -55,4 +55,12 @@ public class Hero extends FlyingObject{
     public void addLife(){
         life++;
     }
+
+    public int getLife(){
+        return life;
+    }
+
+    public boolean outofBounds(){
+        return false;
+    }
 }
