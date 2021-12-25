@@ -63,4 +63,24 @@ public class Hero extends FlyingObject{
     public boolean outofBounds(){
         return false;
     }
+
+    public boolean hit(FlyingObject other){
+        int x1=other.x-this.width/2;
+        int x2=other.x+ other.width+this.width;
+        int y1=other.y+this.height/2;
+        int y2=other.y+other.height+this.height/2;
+        int heroX=this.x+this.width/2;
+        int heroY=this.y+this.height/2;
+
+        return heroX>x1 && heroX<x2
+                &&
+                heroY>y1 && heroY<y2;
+    }
+
+    public  void subtractLife(){
+        life--;
+    }
+    public void setDoublefire(int doublefire){
+        this.doublefire=doublefire;
+    }
 }
